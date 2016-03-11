@@ -1,1 +1,1 @@
-puts STDIN.gets.chomp.chars.inject([]) { |l, c| l.unshift(c) }.join
+puts STDIN.gets.chomp.chars.inject([]) { |a, e| a.unshift(e) }.join
