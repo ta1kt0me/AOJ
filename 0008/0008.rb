@@ -1,14 +1,2 @@
-STDIN.read.split("\n").map(&:chomp).map(&:to_i).each do |n|
-  count = 0
-  10.times do |a|
-    10.times do |b|
-      10.times do |c|
-        10.times do |d|
-          count += 1 if a + b + c + d == n
-        end
-      end
-    end
-  end
-
-  puts count
-end
+result = (0..9).to_a.repeated_permutation(4).map { |a| a.inject(:+) }.each_with_object(Hash.new(0)) { |e, a| a[e] += 1 }
+STDIN.read.split("\n").map(&:chomp).map(&:to_i).each { |n| puts result[n] || 0 }
