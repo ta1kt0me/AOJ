@@ -2,30 +2,21 @@ require 'minitest/autorun'
 # require 'minitest'
 
 class HitBlow
-  def check(a, b)
-    hit_target = [a, b].transpose
-    hit_target.delete_if { |x, y| x == y }
-    hit_count = 4 - hit_target.count
-    return [hit_count, 0] if hit_count == 4
-    blow_target = hit_target.transpose
-    blow_count = 4 - hit_count - (blow_target[0] - blow_target[1]).count
-    [hit_count, blow_count]
+  def self.check(a, b)
+    hits = [a, b].transpose.select { |x, y| x == y }.flatten.uniq
+    blows = a & b - hits
+    [hits.size, blows.size]
   end
 end
 
-# inputs = STDIN.read.split("\n")
-#
-# loop do
-#   break if inputs.empty?
-#   a = inputs.shift.split.map(&:to_i)
-#   b = inputs.shift.split.map(&:to_i)
-#   result = HitBlow.new.check(a, b)
-#   printf "%s %s\n", result[0], result[1]
-# end
+STDIN.read.split("\n").each_slice(2) do |a, b|
+  result = HitBlow.check(a.split.map(&:to_i), b.split.map(&:to_i))
+  printf "%s %s\n", result[0], result[1]
+end
 
 class Test < Minitest::Test
   def setup
-    @hit_blow = HitBlow.new
+    @hit_blow = HitBlow
   end
 
   def test_one_hit_no_blow
