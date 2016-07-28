@@ -1,25 +1,29 @@
+# http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0033
 require 'minitest/autorun'
 
 def foo
-  i = gets.to_i
-  i.times do
-    left = []
-    right = []
+  gets.to_i.times do
+    min, max = 0, 0
     list = gets.split.map(&:to_i)
-    list.each do |j|
-      if left.empty? || j > left.last
-        left << j
-      elsif right.empty? || j > right.last
-        right << j
+    while true
+      break if list.empty?
+      j = list[0]
+      if max < j
+        max = j
+      elsif min < j
+        min = j
+      else
+        break
       end
+      list.shift
     end
 
-    res = list.length == (right.length + left.length) ? 'YES' : 'NO'
-    puts res
+    puts list.empty? ? 'YES' : 'NO'
   end
 end
 
-# foo
+foo
+
 class Test < Minitest::Test
   def test_sample
     assert_output("YES\nNO\n") do
